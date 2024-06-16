@@ -76,6 +76,6 @@ class TokenRecognizer:
                         found_keterangan = True
                         break
                 if not found_keterangan:
-                    tokens.append("")
+                    tokens.append("UKNOWN")
                     i += 1
         return tokens

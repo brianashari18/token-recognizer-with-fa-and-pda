@@ -17,19 +17,27 @@ class Validation:
         elif self.current_state == "q3":
             if token == "O":
                 self.current_state = "q4"
-
-            if token == "K":
+            elif token == "K":
                 self.current_state = "q5"
+            else:
+                self.current_state = "invalid"
 
         elif self.current_state == "q4":
             if token == "K":
                 self.current_state = "q5"
+            else:
+                self.current_state = "invalid"
+
+        elif self.current_state == "q5":
+            self.current_state = "invalid"
 
     def parse(self, tokens):
         self.stack.push("#")
         self.current_state = "q1"
         for token in tokens:
             self.transition(token)
+            if self.current_state == "invalid":
+                break
         self.stack.pop()
 
         if self.current_state in ["q3", "q4", "q5"]:
