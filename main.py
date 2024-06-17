@@ -1,87 +1,70 @@
-import token_recognizer
-import validation
-import stack
 import streamlit as st
+from token_recognizer import (
+    TokenRecognizer,
+)  # Assuming token_recognizer is a custom module
+from validation import Validation  # Assuming validation is a custom module
+from stack import Stack  # Assuming stack is a custom module
 
 
 def main():
-    # sentences = [
-    #     "saya bermain game di kamar",
-    #     "kami membaca buku",
-    #     "anda belajar algoritma",
-    #     "kita menonton film",
-    #     "dia membeli makanan",
-    #     "saya bermain",
-    #     "saya membaca",
-    #     "anda",
-    #     "aku membaca buku",
-    #     "menonton",
-    # ]
+    """
+    Main function to run the Token Recognition application.
+    """
 
-    # s = stack.Stack()
-    # tr = token_recognizer.TokenRecognizer()
-    # v = validation.Validation(s)
+    st.set_page_config(
+        page_title="Token Recognition App",
+        page_icon="",
+    )
 
-    # # sentence = input("Masukkan kalimat: ")
-    # # token = tr.set_token(sentence=sentence)
-    # # is_valid = v.validate(tokens=token)
+    with st.sidebar:
+        st.title("Navigation")
+        selected_page = st.radio("Go to", ("Home", "Token Recognition", "About Us"))
 
-    # # if is_valid:
-    # #     print("Kalimat anda valid")
-    # # else:
-    # #     print("Kalimat anda tidak valid")
-
-    # for sentence in sentences:
-    #     token = tr.set_token(sentence=sentence)
-    #     is_valid = v.validate(tokens=token)
-
-    #     print(token)
-    #     if is_valid:
-    #         print(f"Kalimat '{sentence}': valid")
-    #     else:
-    #         print(f"Kalimat '{sentence}': tidak valid")
-
-    st.sidebar.title("Navigation")
-    page = st.sidebar.radio("Go to", ["Home", "Token Recognition", "About Us"])
-
-    if page == "Home":
+    if selected_page == "Home":
         st.title("Welcome to the Token Recognition App")
+        st.image("./hero.png", use_column_width=True)
         st.write(
-            "This app allows you to tokenize and validate sentences based on predefined rules."
+            """
+            This app allows you to tokenize and validate sentences based on predefined rules.
+            Navigate to the "Token Recognition" page to get started.
+            """
         )
 
-    elif page == "Token Recognition":
+    elif selected_page == "Token Recognition":
         st.title("Token Recognition and Sentence Validation")
+        entered_sentence = st.text_input("Enter a sentence to tokenize and validate:")
 
-        sentence = st.text_input("Enter sentence:")
+        if entered_sentence:
+            token_stack = Stack()
+            token_recognizer = TokenRecognizer()
+            validator = Validation(token_stack)
 
-        if sentence:
-            s = stack.Stack()
-            tr = token_recognizer.TokenRecognizer()
-            v = validation.Validation(s)
+            tokens = token_recognizer.set_token(sentence=entered_sentence)
+            st.write(f"Tokens: {tokens}")
 
-            token = tr.set_token(sentence=sentence)
-            st.write(f"Tokens: {token}")
-            is_valid = v.validate(tokens=token)
-
+            is_valid = validator.validate(tokens=tokens)
             if is_valid:
-                st.success(f"'{sentence}' is valid")
+                st.success(f"'{entered_sentence}' is valid.")
             else:
-                st.error(f"'{sentence}' is not valid")
+                st.error(f"'{entered_sentence}' is not valid.")
 
-    elif page == "About Us":
+        else:
+            st.info(
+                "Please enter a sentence to begin the tokenization and validation process."
+            )
+
+    elif selected_page == "About Us":
         st.title("About Us")
         st.write(
             """
-        This application was created to demonstrate the use of token recognition and sentence validation using a finite state machine.
-        It allows users to input sentences and check their validity based on specific grammatical rules.
-        
-        Developed by:
-        
+            This application was created to demonstrate the use of token recognition and sentence validation using a finite state machine.
+            It allows users to input sentences and check their validity based on specific grammatical rules.
+
+            ### Developed by:
             - Althaf Rizqullah
             - Brian Anashari
             - Evelyn Emery Dahayu
-        """
+            """
         )
 
 

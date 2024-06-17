@@ -2,11 +2,11 @@ class TokenRecognizer:
     def __init__(self):
         self.subject = ["saya", "kami", "anda", "kita", "dia"]
         self.predicate = ["bermain", "membaca", "belajar", "menonton", "membeli"]
-        self.object = ["game", "buku", "algoritma", "film", "makanan"]
+        self.object = ["game", "buku", "piano", "film", "makanan"]
         self.keterangan = [
             "di rumah",
-            "di ruang duduk",
-            "pada malam hari",
+            "di kampus",
+            "di kos",
             "di kamar",
             "di kantin",
         ]
