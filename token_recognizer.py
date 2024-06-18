@@ -1,5 +1,6 @@
 from helper.recognize_k import Recognize_K
 from helper.recognize_o import Recognize_O
+import SP_recognizer
 
 
 class TokenRecognizer:
@@ -61,10 +62,10 @@ class TokenRecognizer:
         i = 0
         while i < len(words):
             word = words[i]
-            if self.recognize_S(word):
+            if SP_recognizer.SubjectRecognizer.is_subject(word):
                 tokens.append("S")
                 i += 1
-            elif self.recognize_P(word):
+            elif SP_recognizer.PredikatRecognizer.is_predikat(word):
                 tokens.append("P")
                 i += 1
             elif Recognize_O().recognize(word):
