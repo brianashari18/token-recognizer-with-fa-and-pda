@@ -11,10 +11,10 @@ class TokenRecognizer:
         i = 0
         while i < len(words):
             word = words[i].lower()
-            if Recognizer_S.is_subject(word):
+            if Recognizer_S().is_subject(word):
                 tokens.append("S")
                 i += 1
-            elif Recognizer_P.is_predikat(word):
+            elif Recognizer_P().is_predikat(word):
                 tokens.append("P")
                 i += 1
             elif Recognize_O().recognize(word):
