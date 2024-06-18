@@ -1,3 +1,7 @@
+from helper.recognize_k import Recognize_K
+from helper.recognize_o import Recognize_O
+
+
 class TokenRecognizer:
     def __init__(self):
         self.subject = ["saya", "kami", "anda", "kita", "dia"]
@@ -63,14 +67,14 @@ class TokenRecognizer:
             elif self.recognize_P(word):
                 tokens.append("P")
                 i += 1
-            elif self.recognize_O(word):
+            elif Recognize_O().recognize(word):
                 tokens.append("O")
                 i += 1
             else:
                 found_keterangan = False
                 for j in range(2, len(words) - i + 1):
                     phrase = " ".join(words[i : i + j])
-                    if self.recognize_K(phrase):
+                    if Recognize_K().recognize(phrase):
                         tokens.append("K")
                         i += j
                         found_keterangan = True
