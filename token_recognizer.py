@@ -17,7 +17,7 @@ class TokenRecognizer:
             elif Recognizer_P.is_predikat(word):
                 tokens.append("P")
                 i += 1
-            elif self.object_recognizer.recognize(word):
+            elif Recognize_O().recognize(word):
                 tokens.append("O")
                 i += 1
             else:
