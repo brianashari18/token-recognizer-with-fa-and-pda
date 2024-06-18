@@ -2,59 +2,12 @@ from helper.recognize_k import Recognize_K
 from helper.recognize_o import Recognize_O
 import SP_recognizer
 
-
 class TokenRecognizer:
     def __init__(self):
-        self.subject = ["saya", "kami", "anda", "kita", "dia"]
-        self.predicate = ["bermain", "membaca", "belajar", "menonton", "membeli"]
-        self.object = ["game", "buku", "piano", "film", "makanan"]
-        self.keterangan = [
-            "di rumah",
-            "di kampus",
-            "di kos",
-            "di kamar",
-            "di kantin",
-        ]
-
-    def recognize_S(self, word):
-        transition = {0: {"subject": 1}}
-
-        initial_state = 0
-        current_state = initial_state
-        if word in self.subject:
-            current_state = transition[current_state]["subject"]
-
-        return current_state == 1
-
-    def recognize_P(self, word):
-        transition = {0: {"predicate": 1}}
-
-        initial_state = 0
-        current_state = initial_state
-        if word in self.predicate:
-            current_state = transition[current_state]["predicate"]
-
-        return current_state == 1
-
-    def recognize_O(self, word):
-        transition = {0: {"object": 1}}
-
-        initial_state = 0
-        current_state = initial_state
-        if word in self.object:
-            current_state = transition[current_state]["object"]
-
-        return current_state == 1
-
-    def recognize_K(self, word):
-        transition = {0: {"keterangan": 1}}
-
-        initial_state = 0
-        current_state = initial_state
-        if word in self.keterangan:
-            current_state = transition[current_state]["keterangan"]
-
-        return current_state == 1
+        self.subject_recognizer = SP_recognizer.SubjectRecognizer()
+        self.predikat_recognizer = SP_recognizer.PredikatRecognizer()
+        self.object_recognizer = Recognize_O()
+        self.keterangan_recognizer = Recognize_K()
 
     def set_token(self, sentence):
         tokens = []
@@ -62,25 +15,25 @@ class TokenRecognizer:
         i = 0
         while i < len(words):
             word = words[i]
-            if SP_recognizer.SubjectRecognizer.is_subject(word):
+            if self.subject_recognizer.is_subject(word):
                 tokens.append("S")
                 i += 1
-            elif SP_recognizer.PredikatRecognizer.is_predikat(word):
+            elif self.predikat_recognizer.is_predikat(word):
                 tokens.append("P")
                 i += 1
-            elif Recognize_O().recognize(word):
+            elif self.object_recognizer.recognize(word):
                 tokens.append("O")
                 i += 1
             else:
                 found_keterangan = False
                 for j in range(2, len(words) - i + 1):
                     phrase = " ".join(words[i : i + j])
-                    if Recognize_K().recognize(phrase):
+                    if self.keterangan_recognizer.recognize(phrase):
                         tokens.append("K")
                         i += j
                         found_keterangan = True
                         break
                 if not found_keterangan:
-                    tokens.append("UKNOWN")
+                    tokens.append("UNKNOWN")
                     i += 1
         return tokens
