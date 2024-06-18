@@ -17,7 +17,7 @@ class TokenRecognizer:
             elif Recognizer_P.is_predikat(word):
                 tokens.append("P")
                 i += 1
-            elif Recognize_O().recognize(word):
+            elif self.object_recognizer.recognize(word):
                 tokens.append("O")
                 i += 1
             else:
@@ -30,6 +30,6 @@ class TokenRecognizer:
                         found_keterangan = True
                         break
                 if not found_keterangan:
-                    tokens.append("UKNOWN")
+                    tokens.append("UNKNOWN")
                     i += 1
         return tokens
